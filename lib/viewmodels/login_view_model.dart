@@ -1,4 +1,5 @@
 import 'package:compound/constants/route_names.dart';
+import 'package:compound/localDatabase/shared_preferences.dart';
 import 'package:compound/locator.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/dialog_service.dart';
@@ -12,10 +13,11 @@ class LoginViewModel extends BaseModel {
       locator<AuthenticationService>();
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final SharedPreferencesData _preferencesData = SharedPreferencesData();
 
   Future login({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   }) async {
     setBusy(true);
 
@@ -28,7 +30,9 @@ class LoginViewModel extends BaseModel {
 
     if (result is bool) {
       if (result) {
-        _navigationService.navigateTo(HomeViewRoute);
+        await _preferencesData.setPrefData('email', email);
+        await _preferencesData.setPrefData('pass', password);
+        _navigationService.navigateToAndClearBackStack(HomeViewRoute);
       } else {
         await _dialogService.showDialog(
           title: 'Login Failure',

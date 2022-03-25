@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:compound/models/user.dart';
 
@@ -9,7 +11,7 @@ class FirestoreService {
     try {
       await _usersCollectionReference.doc(user.id).set(user.toJson());
     } catch (e) {
-      return e.message;
+      return e;
     }
   }
 
@@ -17,10 +19,11 @@ class FirestoreService {
     try {
       var userData = await _usersCollectionReference.doc(uid).get();
       print("user Data:: ${userData.data()}");
-      return UserModel.fromData(userData.data());
-      return null;
+      String data = jsonEncode(userData.data());
+      Map<String, dynamic> map = jsonDecode(data);
+      return UserModel.fromData(map);
     } catch (e) {
-      return e.message;
+      return e;
     }
   }
 }

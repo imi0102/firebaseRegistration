@@ -1,4 +1,5 @@
 import 'package:compound/ui/views/login_view.dart';
+import 'package:compound/ui/views/splash_view.dart';
 import 'package:compound/ui/views/startup_view.dart';
 import 'package:flutter/material.dart';
 import 'package:compound/services/navigation_service.dart';
@@ -8,7 +9,7 @@ import 'ui/router.dart';
 import 'locator.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-void main() async{
+void main() async {
   // Register all the models and services before the app starts
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => Navigator(
         key: locator<DialogService>().dialogNavigationKey,
         onGenerateRoute: (settings) => MaterialPageRoute(
-            builder: (context) => DialogManager(child: child)),
+            builder: (context) => child ?? DialogManager(child!)),
       ),
+      debugShowCheckedModeBanner: false,
       navigatorKey: locator<NavigationService>().navigationKey,
       theme: ThemeData(
         primaryColor: Color.fromARGB(255, 9, 202, 172),
@@ -34,7 +36,7 @@ class MyApp extends StatelessWidget {
               fontFamily: 'Open Sans',
             ),
       ),
-      home: LoginView(),
+      home: SplashView(),
       onGenerateRoute: generateRoute,
     );
   }

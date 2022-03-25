@@ -30,7 +30,7 @@ Route<dynamic> generateRoute(RouteSettings settings) {
   }
 }
 
-PageRoute _getPageRoute({String routeName, Widget viewToShow}) {
+PageRoute _getPageRoute({required String? routeName, required Widget viewToShow}) {
   return MaterialPageRoute(
       settings: RouteSettings(
         name: routeName,

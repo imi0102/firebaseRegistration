@@ -8,12 +8,12 @@ class AuthenticationService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final FirestoreService _firestoreService = locator<FirestoreService>();
 
-  UserModel _currentUser;
+  late UserModel _currentUser;
   UserModel get currentUser => _currentUser;
 
   Future loginWithEmail({
-    @required String email,
-    @required String password,
+    required String email,
+    required String password,
   }) async {
     try {
       var authResult = await _firebaseAuth.signInWithEmailAndPassword(
@@ -23,15 +23,15 @@ class AuthenticationService {
       await _populateCurrentUser(authResult.user);
       return authResult.user != null;
     } catch (e) {
-      return e.message;
+      return e;
     }
   }
 
   Future signUpWithEmail({
-    @required String email,
-    @required String password,
-    @required String fullName,
-    @required String role,
+    required String email,
+    required String password,
+    required String fullName,
+    required String role,
   }) async {
     try {
       var authResult = await _firebaseAuth.createUserWithEmailAndPassword(
@@ -41,7 +41,7 @@ class AuthenticationService {
 
       // create a new user profile on firestore
       _currentUser = UserModel(
-        id: authResult.user.uid,
+        id: authResult.user!.uid,
         email: email,
         fullName: fullName,
         userRole: role,
@@ -51,7 +51,7 @@ class AuthenticationService {
 
       return authResult.user != null;
     } catch (e) {
-      return e.message;
+      return e;
     }
   }
 
@@ -61,7 +61,7 @@ class AuthenticationService {
     return user != null;
   }
 
-  Future _populateCurrentUser(User user) async {
+  Future _populateCurrentUser(User? user) async {
     if (user != null) {
       _currentUser = await _firestoreService.getUser(user.uid);
     }

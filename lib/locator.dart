@@ -1,3 +1,4 @@
+import 'package:compound/services/apiServices.dart';
 import 'package:compound/services/authentication_service.dart';
 import 'package:compound/services/firestore_service.dart';
 import 'package:get_it/get_it.dart';
@@ -11,4 +12,5 @@ void setupLocator() {
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => AuthenticationService());
   locator.registerLazySingleton(() => FirestoreService());
+  locator.registerLazySingleton(() => ApiServices());
 }

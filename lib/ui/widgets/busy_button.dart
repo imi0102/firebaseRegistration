@@ -5,12 +5,12 @@ import 'package:flutter/material.dart';
 class BusyButton extends StatefulWidget {
   final bool busy;
   final String title;
-  final Function onPressed;
+  final VoidCallback onPressed;
   final bool enabled;
   const BusyButton(
-      {@required this.title,
+      {required this.title,
       this.busy = false,
-      @required this.onPressed,
+      required this.onPressed,
       this.enabled = true});
 
   @override

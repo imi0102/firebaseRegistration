@@ -5,6 +5,7 @@ import 'package:compound/services/dialog_service.dart';
 import 'package:compound/services/navigation_service.dart';
 import 'package:flutter/foundation.dart';
 
+import '../localDatabase/shared_preferences.dart';
 import 'base_model.dart';
 
 class SignUpViewModel extends BaseModel {
@@ -12,8 +13,10 @@ class SignUpViewModel extends BaseModel {
       locator<AuthenticationService>();
   final DialogService _dialogService = locator<DialogService>();
   final NavigationService _navigationService = locator<NavigationService>();
+  final SharedPreferencesData _preferencesData = SharedPreferencesData();
 
   String _selectedRole = 'Select a User Role';
+
   String get selectedRole => _selectedRole;
 
   void setSelectedRole(dynamic role) {
@@ -22,9 +25,9 @@ class SignUpViewModel extends BaseModel {
   }
 
   Future signUp({
-    @required String email,
-    @required String password,
-    @required String fullName,
+    required String email,
+    required String password,
+    required String fullName,
   }) async {
     setBusy(true);
 
@@ -38,7 +41,9 @@ class SignUpViewModel extends BaseModel {
 
     if (result is bool) {
       if (result) {
-        _navigationService.navigateTo(HomeViewRoute);
+       await _preferencesData.setPrefData('email', email);
+       await  _preferencesData.setPrefData('pass', password);
+        _navigationService.navigateToAndClearBackStack(HomeViewRoute);
       } else {
         await _dialogService.showDialog(
           title: 'Sign Up Failure',

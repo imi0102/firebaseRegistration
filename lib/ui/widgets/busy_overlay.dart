@@ -9,7 +9,7 @@ class BusyOverlay extends StatelessWidget {
   final String title;
   final bool show;
 
-  const BusyOverlay({this.child,
+  const BusyOverlay({required this.child,
       this.title = 'Please wait...',
       this.show = false});
 

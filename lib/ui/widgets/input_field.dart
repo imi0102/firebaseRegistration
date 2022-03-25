@@ -7,30 +7,30 @@ import 'note_text.dart';
 
 class InputField extends StatefulWidget {
   final TextEditingController controller;
-  final TextInputType textInputType;
-  final bool password;
-  final bool isReadOnly;
-  final String placeholder;
-  final String validationMessage;
-  final Function enterPressed;
-  final bool smallVersion;
-  final FocusNode fieldFocusNode;
-  final FocusNode nextFocusNode;
-  final TextInputAction textInputAction;
-  final String additionalNote;
-  final Function(String) onChanged;
-  final TextInputFormatter formatter;
+  final TextInputType? textInputType;
+  final bool? password;
+  final bool? isReadOnly;
+  final String? placeholder;
+  final String? validationMessage;
+  final Function? enterPressed;
+  final bool? smallVersion;
+  final FocusNode? fieldFocusNode;
+  final FocusNode? nextFocusNode;
+  final TextInputAction? textInputAction;
+  final String? additionalNote;
+  final Function(String)? onChanged;
+  final TextInputFormatter? formatter;
 
   InputField(
-      {@required this.controller,
-      @required this.placeholder,
-      this.enterPressed,
-      this.fieldFocusNode,
-      this.nextFocusNode,
-      this.additionalNote,
-      this.onChanged,
-      this.formatter,
-      this.validationMessage,
+      {required this.controller,
+      required this.placeholder,
+         this.enterPressed,
+         this.fieldFocusNode,
+         this.nextFocusNode,
+         this.additionalNote,
+         this.onChanged,
+         this.formatter,
+         this.validationMessage,
       this.textInputAction = TextInputAction.next,
       this.textInputType = TextInputType.text,
       this.password = false,
@@ -42,13 +42,13 @@ class InputField extends StatefulWidget {
 }
 
 class _InputFieldState extends State<InputField> {
-  bool isPassword;
+  late bool isPassword;
   double fieldHeight = 55;
 
   @override
   void initState() {
     super.initState();
-    isPassword = widget.password;
+    isPassword = widget.password!;
   }
 
   @override
@@ -57,11 +57,11 @@ class _InputFieldState extends State<InputField> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Container(
-          height: widget.smallVersion ? 40 : fieldHeight,
+          height: widget.smallVersion! ? 40 : fieldHeight,
           alignment: Alignment.centerLeft,
           padding: fieldPadding,
           decoration:
-              widget.isReadOnly ? disabledFieldDecortaion : fieldDecortaion,
+              widget.isReadOnly! ? disabledFieldDecortaion : fieldDecortaion,
           child: Row(
             children: <Widget>[
               Expanded(
@@ -72,31 +72,27 @@ class _InputFieldState extends State<InputField> {
                   textInputAction: widget.textInputAction,
                   onChanged: widget.onChanged,
                   inputFormatters:
-                      widget.formatter != null ? [widget.formatter] : null,
+                      widget.formatter != null ? [widget.formatter!] : null,
                   onEditingComplete: () {
-                    if (widget.enterPressed != null) {
-                      FocusScope.of(context).requestFocus(FocusNode());
-                      widget.enterPressed();
-                    }
+                    FocusScope.of(context).requestFocus(FocusNode());
+                    widget.enterPressed!();
                   },
                   onFieldSubmitted: (value) {
-                    if (widget.nextFocusNode != null) {
-                      widget.nextFocusNode.requestFocus();
-                    }
+                    widget.nextFocusNode?.requestFocus();
                   },
                   obscureText: isPassword,
-                  readOnly: widget.isReadOnly,
+                  readOnly: widget.isReadOnly!,
                   decoration: InputDecoration.collapsed(
                       hintText: widget.placeholder,
                       hintStyle:
-                          TextStyle(fontSize: widget.smallVersion ? 12 : 15)),
+                          TextStyle(fontSize: widget.smallVersion! ? 12 : 15)),
                 ),
               ),
               GestureDetector(
                 onTap: () => setState(() {
                   isPassword = !isPassword;
                 }),
-                child: widget.password
+                child: widget.password!
                     ? Container(
                         width: fieldHeight,
                         height: fieldHeight,
@@ -111,11 +107,11 @@ class _InputFieldState extends State<InputField> {
         ),
         if (widget.validationMessage != null)
           NoteText(
-            widget.validationMessage,
+            widget.validationMessage!,
             color: Colors.red,
           ),
         if (widget.additionalNote != null) verticalSpace(5),
-        if (widget.additionalNote != null) NoteText(widget.additionalNote),
+        if (widget.additionalNote != null) NoteText(widget.additionalNote!),
         verticalSpaceSmall
       ],
     );

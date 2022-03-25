@@ -6,11 +6,12 @@ class ExpansionList<T> extends StatefulWidget {
   final String title;
   final Function(dynamic) onItemSelected;
   final bool smallVersion;
+
   ExpansionList({
-    Key key,
-    this.items,
-    this.title,
-    @required this.onItemSelected,
+    Key? key,
+    required this.items,
+    required this.title,
+    required this.onItemSelected,
     this.smallVersion = false,
   }) : super(key: key);
 
@@ -19,9 +20,9 @@ class ExpansionList<T> extends StatefulWidget {
 
 class _ExpansionListState extends State<ExpansionList> {
   final double startingHeight = sharedStyles.fieldHeight;
-  double expandedHeight;
+  late double expandedHeight;
   bool expanded = false;
-  String selectedValue;
+  late String selectedValue;
 
   @override
   void initState() {
@@ -42,7 +43,7 @@ class _ExpansionListState extends State<ExpansionList> {
               : startingHeight,
       decoration: sharedStyles.fieldDecortaion.copyWith(
         boxShadow: expanded
-            ? [BoxShadow(blurRadius: 10, color: Colors.grey[300])]
+            ? [BoxShadow(blurRadius: 10, color: (Colors.grey[300])!)]
             : null,
       ),
       child: ListView(
@@ -99,14 +100,15 @@ class _ExpansionListState extends State<ExpansionList> {
 }
 
 class ExpansionListItem extends StatelessWidget {
-  final Function onTap;
+  final VoidCallback onTap;
   final String title;
   final bool showArrow;
   final bool smallVersion;
+
   const ExpansionListItem({
-    Key key,
-    this.onTap,
-    this.title,
+    Key? key,
+    required this.onTap,
+    required this.title,
     this.showArrow = false,
     this.smallVersion = false,
   }) : super(key: key);
@@ -127,11 +129,11 @@ class ExpansionListItem extends StatelessWidget {
           children: <Widget>[
             Expanded(
               child: Text(
-                title ?? '',
+                title,
                 style: Theme.of(context)
                     .textTheme
                     .subtitle1
-                    .copyWith(fontSize: smallVersion ? 12 : 15),
+                    ?.copyWith(fontSize: smallVersion ? 12 : 15),
               ),
             ),
             showArrow

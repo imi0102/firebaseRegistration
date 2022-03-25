@@ -4,7 +4,11 @@ class UserModel {
   final String email;
   final String userRole;
 
-  UserModel({this.id, this.fullName, this.email, this.userRole});
+  UserModel(
+      {required this.id,
+      required this.fullName,
+      required this.email,
+      required this.userRole});
 
   UserModel.fromData(Map<String, dynamic> data)
       : id = data['id'],

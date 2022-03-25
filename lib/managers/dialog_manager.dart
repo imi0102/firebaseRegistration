@@ -5,7 +5,8 @@ import 'package:compound/services/dialog_service.dart';
 
 class DialogManager extends StatefulWidget {
   final Widget child;
-  DialogManager({Key key, this.child}) : super(key: key);
+
+  DialogManager(this.child,{Key? key}) : super(key: key);
 
   _DialogManagerState createState() => _DialogManagerState();
 }
@@ -34,7 +35,7 @@ class _DialogManagerState extends State<DialogManager> {
               actions: <Widget>[
                 if (isConfirmationDialog)
                   FlatButton(
-                    child: Text(request.cancelTitle),
+                    child: Text(request.cancelTitle!),
                     onPressed: () {
                       _dialogService
                           .dialogComplete(DialogResponse(confirmed: false));
